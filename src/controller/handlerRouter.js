@@ -1,4 +1,5 @@
 const { usuario } = require("../models/schemas");
+const bcrypt = require("bcrypt");
 
 const cadastrarUsuario = async (req, res) => {
   const { nome, email, senha } = req.body;
@@ -7,10 +8,13 @@ const cadastrarUsuario = async (req, res) => {
     if (!nome || !email || !senha) {
       return res.status(400).json({ mensagem: "Preencha todos os dados" });
     }
+
+    const senhaHash = await bcrypt.hash(senha, 10);
+
     const novoUsuario = await usuario.create({
       nome,
       email,
-      senha,
+      senha: senhaHash,
     });
 
     res.status(201).json(novoUsuario);
