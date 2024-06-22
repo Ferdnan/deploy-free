@@ -1,12 +1,10 @@
 const express = require("express");
 const app = express();
+const router = require("./router");
 require("dotenv").config();
 
 app.use(express.json());
-
-app.get("/", async (req, res) => {
-  res.status(200).json({ mensagem: "deu tudo certo" });
-});
+app.use(router);
 
 app.listen(process.env.PORT, () => {
   console.log(`SERVER IS RUNING IN PORT: ${process.env.PORT}`);
