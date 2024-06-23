@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
-// Schema para criação de tabela
+const autoIncremento = require("mongoose-sequence")(mongoose);
+
 const usuarioSchema = new mongoose.Schema({
   nome: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   senha: { type: String, required: true },
 });
-// Model para criar a tabela
+
+usuarioSchema.plugin(autoIncremento, { inc_field: "id" });
 const usuario = mongoose.model("usuario", usuarioSchema);
-// exportando model
+
 module.exports = {
   usuario,
 };
