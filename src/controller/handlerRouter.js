@@ -1,7 +1,7 @@
+require("dotenv").config();
 const { usuario } = require("../models/schemas");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-require("dotenv").config();
 
 const login = async (req, res) => {
   const { email, senha } = req.body;
@@ -31,10 +31,6 @@ const creatUser = async (req, res) => {
   const { nome, email, senha } = req.body;
 
   try {
-    if (!nome || !email || !senha) {
-      return res.status(400).json({ mensagem: "Preencha todos os dados" });
-    }
-
     const senhaHash = await bcrypt.hash(senha, 10);
 
     const novoUsuario = await usuario.create({
