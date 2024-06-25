@@ -38,7 +38,7 @@ const creatUser = async (req, res) => {
       email,
       senha: senhaHash,
     });
-    console.log(novoUsuario);
+
     if (!novoUsuario) {
       return res.status(400).json({ mensagem: "Usuário informado já existe!" });
     }
@@ -55,13 +55,12 @@ const creatUser = async (req, res) => {
 };
 
 const findUser = async (req, res) => {
-  const id = req.query;
-  const idNumber = Number(id);
+  const id = req.query.id;
   try {
-    if (!idNumber || isNaN(idNumber)) {
+    if (!id || isNaN(id)) {
       return res.status(400).json({ mensagem: "Informe um numero válido!" });
     }
-    const findUser = await usuario.findOne(id);
+    const findUser = await usuario.findOne({ id: id });
 
     if (!findUser) {
       return res.status(400).json({ mensagem: "Usuário não encontrado!" });
@@ -93,6 +92,10 @@ const deleteUser = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+const listUsers = async (req, res) => {
+  
+}
 
 module.exports = {
   login,

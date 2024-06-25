@@ -9,8 +9,9 @@ const {
 const tokenValidator = require("../middleware/validatorToken");
 const validatorScheme = require("../middleware/validatorSchemaUser");
 const { schemaLogin, schemaCreate } = require("../schema/schemaUser");
+const emailValidator = require("../middleware/emailValidator");
 
-router.post("/user", validatorScheme(schemaCreate), creatUser);
+router.post("/user", emailValidator, validatorScheme(schemaCreate), creatUser);
 router.post("/login", validatorScheme(schemaLogin), login);
 router.delete("/user", deleteUser);
 
