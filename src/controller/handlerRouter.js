@@ -56,10 +56,10 @@ const creatUser = async (req, res) => {
 
 const findUser = async (req, res) => {
   const id = req.query;
-
+  const idNumber = Number(id);
   try {
-    if (!id) {
-      return res.status(400).json({ mensagem: "O id informado é inválido!" });
+    if (!idNumber || isNaN(idNumber)) {
+      return res.status(400).json({ mensagem: "Informe um numero válido!" });
     }
     const findUser = await usuario.findOne(id);
 
@@ -75,8 +75,28 @@ const findUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  const id = Number(req.query.id);
+  try {
+    if (!id || isNaN(id))
+      return res.status(400).json({ mensagem: "Informe um número válido!" });
+
+    const deletingUser = await usuario.findOneAndDelete({ id: id });
+
+    if (!deletingUser)
+      return res
+        .status(404)
+        .json({ mensagem: "Usuário informado não existe!" });
+
+    return res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   login,
   creatUser,
   findUser,
+  deleteUser,
 };
