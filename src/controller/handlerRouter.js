@@ -38,11 +38,18 @@ const creatUser = async (req, res) => {
       email,
       senha: senhaHash,
     });
+    console.log(novoUsuario);
+    if (!novoUsuario) {
+      return res.status(400).json({ mensagem: "Usuário informado já existe!" });
+    }
 
     const { _id: off, __v: offs, senha: _, ...dataUser } = novoUsuario._doc;
 
     res.status(201).json(dataUser);
   } catch (error) {
+    if (error.keyValue.email == email) {
+      return res.status(400).json({ mensagem: "Email informado já existe!" });
+    }
     return res.status(500).json({ error: error.message });
   }
 };
